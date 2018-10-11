@@ -3,7 +3,7 @@
 . /usr/sbin/so-common
 
 # Start container
-docker run -dit --name=so-strelka -p 5558:5558 -v /opt/strelka/etc/dirstream/dirstream.yml:/opt/strelka/etc/dirstream/dirstream.yml:ro  -v /nsm/bro/extracted:/nsm/bro/extracted:ro -v /var/log/strelka/:/var/log/strelka/ so-strelka
+docker run -dit --name=so-strelka -p 5558:5558 -v /etc/strelka/dirstream.yml:/opt/strelka/etc/dirstream/dirstream.yml:ro  -v /nsm/bro/extracted:/nsm/bro/extracted:ro -v /var/log/strelka/:/var/log/strelka/ so-strelka
 
 # Start server process
 docker exec -dit so-strelka /usr/bin/python3 /opt/strelka/strelka.py
