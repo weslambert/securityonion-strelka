@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# Stop and remove Strelka
+docker stop so-strelka
+docker rm so-strelka
