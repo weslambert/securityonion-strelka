@@ -1,6 +1,6 @@
 # securityonion-strelka
 #### Work in progress 
-  - Tested on standalone install of Security Onion, but *should* work using forward nodes, with filebeat.yml pointed to master server.
+  - Tested on standalone install of Security Onion, but *should* work using forward nodes, with filebeat.yml pointed to master server.         Currently monitors `/nsm/bro/extracted`.
 
 - Install Strelka   
 `git clone https://github.com/target/strelka.git /opt/strelka/`    
