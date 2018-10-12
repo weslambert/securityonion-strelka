@@ -1,4 +1,6 @@
 # securityonion-strelka
+#### Work in progress 
+  - Tested on standalone install of Security Onion, but *should* work using forward nodes, with filebeat.yml pointed to master server.
 
 - Install Strelka   
 `git clone https://github.com/target/strelka.git /opt/strelka/`    
@@ -17,15 +19,12 @@
 - Copy Strelka Docker start/stop/restart/files    
 `cp securityonion-strelka/usr/sbin/so-* /usr/sbin/`        
 
-- Install Filebeat
+- Install Filebeat   
 `curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-6.4.2-amd64.deb`    
 `dpkg -i filebeat-6.4.2-amd64.deb`    
 
 - Copy filebeat.yml and modify to point to Logstash instance    
-`cp securityonion-strelka/etc/filebeat/filebeat.yml /etc/filebeat/`    
-
-- Run Strelka   
-`so-strelka-start`        
+`cp securityonion-strelka/etc/filebeat/filebeat.yml /etc/filebeat/`           
 
 - Start Filebeat and enable at boot    
 `service filebeat start`        
@@ -34,3 +33,6 @@
 - If storage node or standalone, copy Logtash config files    
 `cp securityonion-strelka/etc/logstash/* /etc/logstash/custom/`    
 `so-logstash-restart`   
+
+- Run Strelka   
+`so-strelka-start` 
