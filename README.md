@@ -14,7 +14,7 @@
 `chown -R 1001:1001 /var/log/strelka /etc/strelka`    
 
 - Strelka config files    
-`cp securityonion-strelka/etc/*.yml /etc/strelka`    
+`cp securityonion-strelka/etc/dirstream.yml /etc/strelka`    
 
 - Copy Strelka Docker start/stop/restart/files    
 `cp securityonion-strelka/usr/sbin/so-* /usr/sbin/`        
