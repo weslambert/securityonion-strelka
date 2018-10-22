@@ -11,7 +11,7 @@
 
 - Make dirs and set perms    
 `mkdir -p /var/log/strelka/ /etc/strelka`    
-`chown -R 1001:10001 /var/log/strelka /etc/strelka`    
+`chown -R 1001:1001 /var/log/strelka /etc/strelka`    
 
 - Strelka config files    
 `cp securityonion-strelka/etc/*.yml /etc/strelka`    
