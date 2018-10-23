@@ -1,0 +1,40 @@
+#!/bin/bash
+# Install Strelka on Security Onion
+# Author: Wes Lambert, wlambertts@gmail.com
+# This script is currently only supported for use in Standalone deployments
+
+# Clone Strelka repo and build Docker container
+git clone https://github.com/target/strelka.git /opt/strelka/
+cd /opt/strelka/ && docker build -t so-strelka .
+
+# Clone Security Onion stuff
+cd .. && git clone https://github.com/weslambert/securityonion-strelka.git
+
+# Create dirs and set perms
+echo "Creating directories and setting permissions..."
+mkdir -p /var/log/strelka/ /etc/strelka
+chown -R 1001:1001 /var/log/strelka /etc/strelka
+
+# Copy stuff over
+echo "Copying Strelka config..."
+cp /opt/securityonion-strelka/etc/dirstream.yml /etc/strelka
+cp /opt/securityonion-strelka/usr/sbin/so-* /usr/sbin/
+
+# Install Filebeat
+echo "Getting Filbeat ready..."
+curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-6.4.2-amd64.deb
+dpkg -i filebeat-6.4.2-amd64.deb
+cp securityonion-strelka/etc/filebeat/filebeat.yml /etc/filebeat/
+service filebeat start
+systemctl enable filebeat.service
+
+# Copy Logstash config into place
+echo "Copying Logstash config..."
+cp securityonion-strelka/etc/logstash/* /etc/logstash/custom/
+
+# Restarting Logstash..."
+so-logstash-restart
+
+# Start Strelka
+echo "Starting Strelka..."
+so-strelka-start
