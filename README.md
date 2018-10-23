@@ -2,6 +2,13 @@
 #### Work in progress 
   - Tested on standalone install of Security Onion, but *should* work using forward nodes, with filebeat.yml pointed to master server.         Currently monitors `/nsm/bro/extracted`.
 
+`wget https://raw.githubusercontent.com/weslambert/securityonion-strelka/master/install_strelka && sudo chmod +x install_strelka`
+`sudo ./install_strelka`
+
+OR 
+
+Manually install using the following steps:
+
 - Install Strelka   
 `git clone https://github.com/target/strelka.git /opt/strelka/`    
 `cd /opt/strelka/ && docker build -t so-strelka .`
