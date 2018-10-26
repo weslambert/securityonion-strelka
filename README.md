@@ -46,8 +46,6 @@ Manually install using the following steps:
 View the logs:
 
 In Kibana, navigate to `Discover` and type the following in the search field:
-`tags:strelka`
+`tags:strelka` or `event_type:strelka`
 
 (May have to refresh field list under Management -> Index Patterns)
-
-<a href="https://user-images.githubusercontent.com/16829864/47327878-df726c80-d63c-11e8-8b92-a03592ea125e.JPG"><img src="https://user-images.githubusercontent.com/16829864/47327878-df726c80-d63c-11e8-8b92-a03592ea125e.JPG"></a>
