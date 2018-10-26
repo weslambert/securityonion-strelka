@@ -45,3 +45,11 @@ so-logstash-restart
 # Start Strelka
 echo "Starting Strelka..."
 so-strelka-start
+
+# Add service file and enable the service so Strelka starts on boot
+echo "Configuring Strelka to start on boot..."
+cp securityonion-strelka/systemd/system/strelka.service /etc/systemd/system/strelka.service
+systemctl enable strelka.service
+
+echo "Done!"
+
