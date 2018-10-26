@@ -1,0 +1,14 @@
+[Unit]
+Description=Strelka Service
+After=network.target
+Requires=docker.service
+
+[Service]
+Type=forking
+
+ExecStart=/usr/sbin/so-strelka-start
+Restart=on-abort
+TimeoutStartSec=300
+
+[Install]
+WantedBy=multi-user.target
