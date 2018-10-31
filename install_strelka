@@ -17,8 +17,7 @@ chown -R 1001:1001 /var/log/strelka /etc/strelka
 
 # Copy stuff over
 echo "Copying Strelka config..."
-cp /opt/securityonion-strelka/etc/dirstream.yml /etc/strelka
-cp /opt/securityonion-strelka/etc/strelka.yml /etc/strelka
+cp /opt/securityonion-strelka/etc/*.yml /etc/strelka
 cp /opt/securityonion-strelka/usr/sbin/so-* /usr/sbin/
 
 # Install Filebeat
