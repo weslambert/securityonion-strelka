@@ -378,7 +378,7 @@
           }
 	},
 	"offset":{
-          "type":"text",
+          "type":"long",
           "fields":{
             "keyword":{
               "type":"keyword"
@@ -465,6 +465,22 @@
             }
           }
 	},
+	"source_parenthash":{
+          "type":"text",
+          "fields":{
+            "keyword":{
+              "type":"keyword"
+            }
+          }
+        },
+	"source_parentuid":{
+          "type":"text",
+          "fields":{
+            "keyword":{
+              "type":"keyword"
+            }
+          }
+        },
         "source_roothash":{
           "type":"text",
           "fields":{
