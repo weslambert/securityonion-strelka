@@ -46,25 +46,29 @@ salt "*" test.ping
 read forwardnodes
 for i in $(echo $forwardnodes | sed "s/,/ /g")
 do
+    FWDIP=`salt "$i" network.ip_addrs | grep -v 172.17.0.1 | awk '{print $2}'`
+    ufw_after_rules="-I DOCKER-USER ! -i docker0 -o docker0 -s $FWDIP -p tcp --dport 5044 -j ACCEPT"
+    sudo iptables $ufw_after_rules
+    sed -i "/so-allow/a $ufw_after_rules" /etc/ufw/after.rules
     salt "$i" cmd.run "wget https://raw.githubusercontent.com/weslambert/securityonion-strelka/master/install_strelka_forward && chmod +x install_strelka_forward && ./install_strelka_forward"
 done
 
 
 # Add FW config for sensors
-echo
-echo "Please specify an IP address for each forward node from which you would like to receive Strelka data (separated by a comma):"
-echo
-echo "Ex. 192.168.1.4,192.168.1.5"
-echo
-salt "*" network.ip_addrs
-read forwardnodes
-for i in $(echo $forwardnodes | sed "s/,/ /g")
-do
-    ufw_after_rules="-I DOCKER-USER ! -i docker0 -o docker0 -s $i -p tcp --dport 5044 -j ACCEPT"
-    sudo iptables $ufw_after_rules
-    sed -i "/so-allow/a $ufw_after_rules" /etc/ufw/after.rules    
-done
-echo
-echo "Configuration for master/storage node(s)  is complete!"
-echo "Please run ./install_strelka_forward on each forward node"
+#echo
+#echo "Please specify an IP address for each forward node from which you would like to receive Strelka data (separated by a comma):"
+#echo
+#echo "Ex. 192.168.1.4,192.168.1.5"
+#echo
+#salt "*" network.ip_addrs
+#read forwardnodes
+#for i in $(echo $forwardnodes | sed "s/,/ /g")
+#do
+#    ufw_after_rules="-I DOCKER-USER ! -i docker0 -o docker0 -s $i -p tcp --dport 5044 -j ACCEPT"
+#    sudo iptables $ufw_after_rules
+#    sed -i "/so-allow/a $ufw_after_rules" /etc/ufw/after.rules    
+#done
+#echo
+echo "Configuration is complete!"
+#echo "Please run ./install_strelka_forward on each forward node"
 
