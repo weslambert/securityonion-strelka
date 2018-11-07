@@ -48,7 +48,7 @@ salt "*" test.ping
 read forwardnodes
 for i in $(echo $forwardnodes | sed "s/,/ /g")
 do
-    FWDIP=$(salt "$i" network.ip_addrs | grep -v 172.17.0.1 | awk '{print $2}')
+    FWDIP=$(salt "$i" network.ip_addrs | grep -v 172.17.0.1 | awk '{print $2}' | tr -d '\n')
     ufw_after_rules="-I DOCKER-USER ! -i docker0 -o docker0 -s $FWDIP -p tcp --dport 5044 -j ACCEPT"
     echo "Adding iptables rule for $i..."
     sudo iptables $ufw_after_rules
