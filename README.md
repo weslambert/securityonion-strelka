@@ -4,6 +4,10 @@
   - Tested on standalone and distributed Security Onion deployments.         
   - Currently monitors `/nsm/bro/extracted`.
   
+#### TODO:
+  - Better parsing/mapping of fields
+  - Better correlation with existing log data presented by Security Onion
+  
 ##### Install on Standalone
 
 - `wget https://raw.githubusercontent.com/weslambert/securityonion-strelka/master/install_strelka && sudo chmod +x install_strelka && sudo ./install_strelka`    
