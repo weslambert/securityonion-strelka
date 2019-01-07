@@ -9,6 +9,7 @@
   - Better parsing/mapping of fields
   - Better correlation with existing log data presented by Security Onion
   - Consider moving/adding the ability to move Strelka server process to master server to avoid taxing sensor components.
+  - Consider adding Strelka Bro extraction script
   
 ##### Install on Standalone
 
