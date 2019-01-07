@@ -20,7 +20,9 @@
 
 From the master:
 
-- `wget https://raw.githubusercontent.com/weslambert/securityonion-strelka/master/install_strelka_master && sudo chmod +x install_strelka_master && sudo ./install_strelka_master`    
+- `wget https://raw.githubusercontent.com/weslambert/securityonion-strelka/master/install_strelka_master && sudo chmod +x install_strelka_master && sudo ./install_strelka_master` 
+
+NOTE: The forward node configuration may take a while.  This is due to the fact that a Docker image is built from scratch when installed, and the node will need to pull down various packages, etc. when building. 
 
 ##### Logs
 
