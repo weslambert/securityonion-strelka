@@ -40,7 +40,7 @@ sed -i 's/]/, "logstash-strelka-*"]/' /etc/logstash/custom/logstash-template.jso
 sed -i 's/^LOGSTASH_OPTIONS=*/LOGSTASH_OPTIONS="-v \/etc\/logstash\/logstash-strelka-template.json:\/logstash-strelka-template.json:ro"/' /etc/nsm/securityonion.conf
 
 # Load Stelka dashboards
-for i in dashboards/*.json; do
+for i in /opt/securityonion-strelka/dashboards/*.json; do
 	curl -XPOST localhost:5601/api/kibana/dashboards/import?force=true -H 'kbn-xsrf:true' -H 'Content-type:application/json' -d @$i
 done
 
