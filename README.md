@@ -1,4 +1,7 @@
 # securityonion-strelka
+
+![image](https://user-images.githubusercontent.com/16829864/51959540-ddc9f900-2422-11e9-9fbe-1ea1197c7d96.png)
+
 #### Work in progress (not officially supported to work with Security Onion -- TEST AT YOUR OWN RISK!) 
   - Integrates the great work of [@jshlbrd](https://github.com/jshlbrd) ([Strelka](https://github.com/target/strelka)) with Security Onion. 
   - Tested on standalone and distributed Security Onion deployments.
