@@ -39,6 +39,11 @@ sed -i 's/]/, "logstash-strelka-*"]/' /etc/logstash/custom/logstash-template.jso
 # Modify securityonion.conf so that it mounts the new template file
 sed -i 's/^LOGSTASH_OPTIONS=*/LOGSTASH_OPTIONS="-v \/etc\/logstash\/logstash-strelka-template.json:\/logstash-strelka-template.json:ro"/' /etc/nsm/securityonion.conf
 
+# Load Stelka dashboards
+for i in dashboards/*.json; do
+	curl -XPOST localhost:5601/api/kibana/dashboards/import?force=true -H 'kbn-xsrf:true' -H 'Content-type:application/json' -d @$i
+done
+
 # Restarting Logstash..."
 so-logstash-restart
 
