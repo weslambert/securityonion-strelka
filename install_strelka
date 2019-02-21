@@ -13,7 +13,7 @@ cd .. && git clone https://github.com/weslambert/securityonion-strelka.git
 # Create dirs and set perms
 echo "Creating directories and setting permissions..."
 mkdir -p /var/log/strelka/ /etc/strelka /nsm/strelka
-chown -R 1001:1001 /var/log/strelka /etc/strelka
+chown -R 1001:1001 /var/log/strelka /etc/strelka /nsm/strelka
 
 # Copy stuff over
 echo "Copying Strelka config..."
