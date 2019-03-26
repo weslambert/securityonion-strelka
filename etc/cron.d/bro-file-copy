@@ -2,8 +2,8 @@
 #
 # Crontab entry to copy files from Bro extracted directory to a directory monitored and managed by Strelka.
 
-STRELKADIR="/nsm/strelka"
+STRELKADIR=/nsm/strelka
 SHELL=/bin/sh
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
-* * * * * root find /nsm/bro/extracted/ -mmin -1 -exec cp -p {} $STRELKADIR  \;
+* * * * * root /usr/bin/find /nsm/bro/extracted/ -mmin -1  -exec cp -p {} $STRELKADIR  \;
