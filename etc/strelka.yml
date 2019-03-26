@@ -11,13 +11,13 @@ daemon:
     run_broker: True
     run_workers: True
     run_logrotate: True
-    worker_count: 4
+    worker_count: 1
     shutdown_timeout: 45
 
   network:
     broker: '127.0.0.1'
-    request_port: 5558
-    task_port: 5559
+    request_socket_port: 5558
+    task_socket_port: 5559
 
   broker:
     poller_timeout: 1000
@@ -27,13 +27,16 @@ daemon:
     prune_delta: 10
 
   workers:
+    task_socket_reconnect: 100
+    task_socket_reconnect_max: 4000
     poller_timeout: 1000
     file_max: 10000
     time_to_live: 30
     heartbeat_frequency: 10
     log_directory: '/var/log/strelka/'
     log_field_case: 'snake'
-    log_bundle_events: False
+    log_bundle_events: True
+    log_timestamp_utc: True
 
   logrotate:
     directory: '/var/log/strelka/'
@@ -69,7 +72,7 @@ scan:
     scanner_timeout: 600
     maximum_depth: 15
     taste_mime_db: null
-    taste_yara_rules: 'etc/strelka/taste.yara'
+    taste_yara_rules: 'etc/strelka/taste/'
 
   scanners:
     'ScanBatch':
@@ -291,12 +294,6 @@ scan:
         options:
           extract_text: False
           limit: 2000
-    'ScanPhp':
-      - positive:
-          flavors:
-            - 'text/x-php'
-            - 'php_file'
-        priority: 5
     'ScanPe':
       - positive:
           flavors:
@@ -308,6 +305,12 @@ scan:
           flavors:
             - 'application/pgp-keys'
             - 'pgp_file'
+        priority: 5
+    'ScanPhp':
+      - positive:
+          flavors:
+            - 'text/x-php'
+            - 'php_file'
         priority: 5
     'ScanPkcs7':
       - positive:
@@ -439,3 +442,4 @@ scan:
         priority: 5
         options:
           limit: 1000
+          password_file: 'etc/strelka/passwords.txt'
