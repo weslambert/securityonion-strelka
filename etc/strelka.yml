@@ -35,7 +35,7 @@ daemon:
     heartbeat_frequency: 10
     log_directory: '/var/log/strelka/'
     log_field_case: 'snake'
-    log_bundle_events: True
+    log_bundle_events: False
     log_timestamp_utc: True
 
   logrotate:
