@@ -1,5 +1,6 @@
 #!/bin/bash
 
-# Stop and remove Strelka
-docker stop so-strelka
-docker rm so-strelka
+. /usr/sbin/so-common
+
+docker-compose -f /etc/strelka/docker-compose.yaml --project strelka down
+

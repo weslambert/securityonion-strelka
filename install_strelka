@@ -4,49 +4,50 @@
 # This script is currently only supported for use in Standalone deployments
 
 # Clone Strelka repo and build Docker container
-git clone https://github.com/target/strelka.git /opt/strelka/
-cd /opt/strelka/ && docker build -t so-strelka .
+git clone -b experimental/grpc https://github.com/target/strelka.git /opt/strelka
+#git clone https://github.com/target/strelka.git /opt/strelka/
+#cd /opt/strelka/ && docker build -t so-strelka .
 
 # Clone Security Onion stuff
-cd .. && git clone https://github.com/weslambert/securityonion-strelka.git
+git clone -b grpc https://github.com/weslambert/securityonion-strelka.git /opt/securityonion-strelka
 
 # Create dirs and set perms
 echo "Creating directories and setting permissions..."
-mkdir -p /var/log/strelka/ /etc/strelka /nsm/strelka
+mkdir -p /var/log/strelka/ /etc/strelka  /nsm/strelka/processed
 chown -R 1001:1001 /var/log/strelka /etc/strelka /nsm/strelka
 
 # Copy stuff over
 echo "Copying Strelka config..."
-cp /opt/securityonion-strelka/etc/*.yml /etc/strelka
+cp /opt/securityonion-strelka/etc/strelka/* /etc/strelka
 cp /opt/securityonion-strelka/etc/cron.d/* /etc/cron.d
 cp /opt/securityonion-strelka/usr/sbin/so-* /usr/sbin/
 
 # Install Filebeat
-echo "Getting Filbeat ready..."
-curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-6.4.2-amd64.deb
-dpkg -i filebeat-6.4.2-amd64.deb
-cp securityonion-strelka/etc/filebeat/filebeat.yml /etc/filebeat/
-service filebeat start
-systemctl enable filebeat.service
+#echo "Getting Filbeat ready..."
+#curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-6.4.2-amd64.deb
+#dpkg -i filebeat-6.4.2-amd64.deb
+#cp securityonion-strelka/etc/filebeat/filebeat.yml /etc/filebeat/
+#service filebeat start
+#systemctl enable filebeat.service
 
 # Copy Logstash config into place
-echo "Copying Logstash config..."
-cp securityonion-strelka/etc/logstash/* /etc/logstash/custom/
+#echo "Copying Logstash config..."
+#cp securityonion-strelka/etc/logstash/* /etc/logstash/custom/
 
 # Copy stock Logstash config to /etc/logstash/custom and modify for Strelka
-cp /etc/logstash/logstash-template.json /etc/logstash/custom
-sed -i 's/]/, "logstash-strelka-*"]/' /etc/logstash/custom/logstash-template.json
+#cp /etc/logstash/logstash-template.json /etc/logstash/custom
+#sed -i 's/]/, "logstash-strelka-*"]/' /etc/logstash/custom/logstash-template.json
 
 # Modify securityonion.conf so that it mounts the new template file
-sed -i 's/^LOGSTASH_OPTIONS=*/LOGSTASH_OPTIONS="-v \/etc\/logstash\/logstash-strelka-template.json:\/logstash-strelka-template.json:ro"/' /etc/nsm/securityonion.conf
+#sed -i 's/^LOGSTASH_OPTIONS=*/LOGSTASH_OPTIONS="-v \/etc\/logstash\/logstash-strelka-template.json:\/logstash-strelka-template.json:ro"/' /etc/nsm/securityonion.conf
 
 # Load Stelka dashboards
-for i in /opt/securityonion-strelka/dashboards/*.json; do
-	curl -XPOST localhost:5601/api/kibana/dashboards/import?force=true -H 'kbn-xsrf:true' -H 'Content-type:application/json' -d @$i
-done
+#for i in /opt/securityonion-strelka/dashboards/*.json; do
+#	curl -XPOST localhost:5601/api/kibana/dashboards/import?force=true -H 'kbn-xsrf:true' -H 'Content-type:application/json' -d @$i
+#done
 
 # Restarting Logstash..."
-so-logstash-restart
+#so-logstash-restart
 
 # Start Strelka
 echo "Starting Strelka..."
