@@ -1,80 +1,20 @@
-############################ Strelka Configuration #############################
-
-# This file is the default configuration for running strelka.py. All options in
-# this configuration file are required (though all may not be used). Details
-# regarding the settings in this configuration can be reviewed in the Strelka
-# README.
-
-#========================== Daemon Configuration ==============================#
-daemon:
-  processes:
-    run_broker: True
-    run_workers: True
-    run_logrotate: True
-    worker_count: 1
-    shutdown_timeout: 45
-
-  network:
-    broker: '127.0.0.1'
-    request_socket_port: 5558
-    task_socket_port: 5559
-
-  broker:
-    poller_timeout: 1000
-    broker_secret_key: null
-    client_public_keys: null
-    prune_frequency: 5
-    prune_delta: 10
-
-  workers:
-    task_socket_reconnect: 100
-    task_socket_reconnect_max: 4000
-    poller_timeout: 1000
-    file_max: 10000
-    time_to_live: 30
-    heartbeat_frequency: 10
-    log_directory: '/var/log/strelka/'
-    log_field_case: 'snake'
-    log_bundle_events: False
-    log_timestamp_utc: True
-
-  logrotate:
-    directory: '/var/log/strelka/'
-    compression_delta: 15
-    deletion_delta: 360
-
-#=========================== Remote Configuration =============================#
-remote:
-  remote_timeout: 30
-  remote_retries: 3
-  google_application_credentials: null
-  aws_access_key_id: null
-  aws_secret_access_key: null
-  aws_default_region: null
-  st_auth_version: 3
-  os_auth_url: null
-  os_username: null
-  os_password: null
-  os_cert: null
-  os_cacert: null
-  os_user_domain_name: null
-  os_project_name: null
-  os_project_domain_name: null
-  http_basic_user: null
-  http_basic_pass: null
-  http_verify: False
-
-#========================== Scan Configuration ================================#
-scan:
-  distribution:
-    close_timeout: 30
-    distribution_timeout: 1800
-    scanner_timeout: 600
-    maximum_depth: 15
-    taste_mime_db: null
-    taste_yara_rules: 'etc/strelka/taste/'
-
-  scanners:
+logging_cfg: '/etc/strelka/logging.yaml'
+limits:
+    max_files: 5000
+    time_to_live: 900
+    max_depth: 15
+    distribution: 600
+    scanner: 150
+cache:
+    addr: 'strelka_cache_1:6379'
+    db: 0
+coordinator:
+    addr: 'strelka_coordinator_1:6379'
+    db: 0
+tasting:
+    mime_db: null
+    yara_rules: '/etc/strelka/taste/'
+scanners:
     'ScanBatch':
       - positive:
           flavors:
@@ -165,7 +105,7 @@ scan:
             - 'wmv_file'
         priority: 5
         options:
-          tempfile_directory: '/dev/shm/'
+          tmp_directory: '/dev/shm/'
     'ScanGif':
       - positive:
           flavors:
@@ -213,7 +153,7 @@ scan:
         positive:
           flavors:
             - 'javascript_file'
-            - 'javascript'
+            - 'text/javascript'
         priority: 5
         options:
           beautify: True
@@ -262,7 +202,15 @@ scan:
             - 'macho_file'
         priority: 5
         options:
-          tempfile_directory: '/dev/shm/'
+          tmp_directory: '/dev/shm/'
+    'ScanMmbot':
+      - positive:
+          flavors:
+            - 'vb_file'
+            - 'vbscript'
+        priority: 5
+        options:
+          server: 'strelka_mmrpc_1:33907'
     'ScanOcr':
       - positive:
           flavors:
@@ -277,7 +225,7 @@ scan:
         priority: 5
         options:
           extract_text: False
-          tempfile_directory: '/dev/shm/'
+          tmp_directory: '/dev/shm/'
     'ScanOle':
       - positive:
           flavors:
@@ -332,7 +280,7 @@ scan:
             - 'rpm_file'
         priority: 5
         options:
-          tempfile_directory: '/dev/shm/'
+          tmp_directory: '/dev/shm/'
     'ScanRtf':
       - positive:
           flavors:
@@ -341,10 +289,10 @@ scan:
         priority: 5
         options:
           limit: 1000
-    'ScanSelf':
+    'ScanRuby':
       - positive:
           flavors:
-            - '*'
+            - 'text/x-ruby'
         priority: 5
     'ScanSwf':
       - positive:
@@ -374,7 +322,7 @@ scan:
             - 'upx_file'
         priority: 5
         options:
-          tempfile_directory: '/dev/shm/'
+          tmp_directory: '/dev/shm/'
     'ScanUrl':
       - negative:
           flavors:
@@ -442,4 +390,4 @@ scan:
         priority: 5
         options:
           limit: 1000
-          password_file: 'etc/strelka/passwords.txt'
+          password_file: '/etc/strelka/passwords.dat'
