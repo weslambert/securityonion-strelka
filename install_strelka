@@ -11,6 +11,9 @@ git clone -b experimental/grpc https://github.com/target/strelka.git /opt/strelk
 # Clone Security Onion stuff
 git clone -b grpc https://github.com/weslambert/securityonion-strelka.git /opt/securityonion-strelka
 
+# Install docker-compose
+apt-get install -y docker-compose 
+
 # Create dirs and set perms
 echo "Creating directories and setting permissions..."
 mkdir -p /var/log/strelka/ /etc/strelka  /nsm/strelka/processed
@@ -18,7 +21,7 @@ chown -R 1001:1001 /var/log/strelka /etc/strelka /nsm/strelka
 
 # Copy stuff over
 echo "Copying Strelka config..."
-cp /opt/securityonion-strelka/etc/strelka/* /etc/strelka
+cp -av /opt/securityonion-strelka/etc/strelka/* /etc/strelka
 cp /opt/securityonion-strelka/etc/cron.d/* /etc/cron.d
 cp /opt/securityonion-strelka/usr/sbin/so-* /usr/sbin/
 
@@ -55,7 +58,7 @@ so-strelka-start
 
 # Add service file and enable the service so Strelka starts on boot
 echo "Configuring Strelka to start on boot..."
-cp securityonion-strelka/etc/systemd/system/strelka.service /etc/systemd/system/strelka.service
+cp /opt/securityonion-strelka/etc/systemd/system/strelka.service /etc/systemd/system/strelka.service
 systemctl enable strelka.service
 
 echo "Done!"
