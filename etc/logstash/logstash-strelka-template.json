@@ -81,7 +81,7 @@
             }
           }
 	},
-        "entropy":{
+        "md_entropy":{
           "type":"text",
           "fields":{
             "keyword":{
@@ -225,7 +225,7 @@
             }
           }
         },
-        "header":{
+        "md_header":{
           "type":"text",
           "fields":{
             "keyword":{
@@ -602,11 +602,8 @@
           }
         },
         "yara":{
-          "type":"text",
-          "fields":{
-            "keyword":{
-              "type":"keyword"
-            }
+          "type":"object",
+          "dynamic":"true"
           }
 	}
       }
