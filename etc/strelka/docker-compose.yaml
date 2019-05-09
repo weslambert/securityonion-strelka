@@ -68,3 +68,16 @@ services:
         command: redis-server --save "" --appendonly no  # alt: use config file via volume mapping
         networks:
             - net
+    filestream:
+        build:
+              context: /opt/strelka/
+              dockerfile: /opt/strelka/build/go/filestream/Dockerfile
+        command: strelka-filestream
+        networks:
+            - net
+        volumes:
+            - /etc/strelka/filestream/:/etc/strelka/:ro
+            - /nsm/strelka:/nsm/strelka
+        restart: unless-stopped
+        depends_on:
+            - frontend
