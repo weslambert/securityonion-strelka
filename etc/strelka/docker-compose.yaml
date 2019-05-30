@@ -18,7 +18,7 @@ services:
             - net
         volumes:
             - /etc/strelka/frontend/:/etc/strelka/:ro
-            - /var/log/strelka/:var/log/strelka/
+            - /var/log/strelka/:/var/log/strelka/
         restart: unless-stopped
         depends_on:
             - coordinator
