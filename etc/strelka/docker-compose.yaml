@@ -9,7 +9,7 @@ volumes:
 services:
     frontend:
         build:
-              context: /opt/strelka/
+              context: /opt/strelka
               dockerfile: /opt/strelka/build/go/frontend/Dockerfile
         command: strelka-frontend
         ports:
@@ -18,14 +18,13 @@ services:
             - net
         volumes:
             - /etc/strelka/frontend/:/etc/strelka/:ro
-            - /var/log/strelka:/var/log/strelka
+            - /var/log/strelka/:var/log/strelka/
         restart: unless-stopped
         depends_on:
-            - cache
             - coordinator
     backend:
         build:
-              context: /opt/strelka/
+              context: /opt/strelka
               dockerfile: /opt/strelka/build/python/backend/Dockerfile
         command: strelka-backend
         shm_size: 512mb  # increase as necessary, required for some scanners
@@ -35,11 +34,10 @@ services:
             - /etc/strelka/backend/:/etc/strelka/:ro
         restart: unless-stopped
         depends_on:
-            - cache
             - coordinator
     redis:
         build:
-              context: /opt/strelka/
+              context: /opt/strelka
               dockerfile: /opt/strelka/build/go/redis/Dockerfile
         command: strelka-redis
         restart: unless-stopped
@@ -49,18 +47,12 @@ services:
             - /etc/strelka/redis/:/etc/strelka/:ro
         restart: unless-stopped
         depends_on:
-            - cache
             - coordinator
     mmrpc:
         build:
-              context: /opt/strelka/
+              context: /opt/strelka
               dockerfile: /opt/strelka/build/python/mmrpc/Dockerfile
-        command: strelka-mmrpc --threads 1 --address [::]:33907
-        networks:
-            - net
-    cache:
-        image: redis:alpine
-        command: redis-server --save "" --appendonly no  # alt: use config file via volume mapping
+        command: strelka-mmrpc --threads 2 --address [::]:33907
         networks:
             - net
     coordinator:
