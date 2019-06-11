@@ -81,14 +81,10 @@
             }
           }
 	},
-        "md_entropy":{
-          "type":"text",
-          "fields":{
-            "keyword":{
-              "type":"keyword"
-            }
-          }
-	},
+        "entropy":{
+          "type":"object",
+          "dynamic":"true"
+        },
         "entry_point":{
           "type":"text",
           "fields":{
@@ -97,6 +93,10 @@
             }
           }
 	},
+        "exiftool":{
+          "type":"object",
+          "dynamic":"true"
+        },
         "exiftool_version":{
           "type":"text",
           "fields":{
@@ -121,6 +121,10 @@
             }
           }
 	},
+        "file":{
+          "type":"object",
+          "dynamic":"true"
+        },
         "file_description":{
           "type":"text",
           "fields":{
@@ -225,14 +229,18 @@
             }
           }
         },
-        "md_header":{
-          "type":"text",
-          "fields":{
-            "keyword":{
-              "type":"keyword"
-            }
-          }
-	},
+        "gif":{
+          "type":"object",
+          "dynamic":"true"
+        },
+        "hash":{
+          "type":"object",
+          "dynamic":"true"
+        },
+        "header":{
+          "type":"object",
+          "dynamic":"true"
+        },
         "heap_commitsize":{
           "type":"text",
           "fields":{
@@ -249,6 +257,10 @@
             }
           }
 	},
+        "html":{
+          "type":"object",
+          "dynamic":"true"
+        },
         "image_base":{
           "type":"text",
           "fields":{
@@ -321,6 +333,14 @@
             }
           }
 	},
+        "javascript":{
+          "type":"object",
+          "dynamic": "true"
+        },
+        "jpeg":{
+          "type":"object",
+          "dynamic": "true"
+        },
         "languagecode":{
           "type":"text",
           "fields":{
@@ -377,6 +397,10 @@
             }
           }
 	},
+        "ocr":{
+          "type":"object",
+          "dynamic": "true"
+        },
 	"offset":{
           "type":"long",
           "fields":{
@@ -401,6 +425,10 @@
             }
           }
 	},
+        "pe":{
+          "type":"object",
+          "dynamic":"true"
+        },
         "pe_type":{
           "type":"text",
           "fields":{
@@ -448,6 +476,10 @@
               "type": "keyword"
             }
           }
+        },
+        "request":{
+          "type":"object",
+          "dynamic":"true"
         },
         "source_depth":{
           "type":"text",
@@ -569,6 +601,18 @@
             }
           }
 	},
+        "swf":{
+          "type":"object",
+          "dynamic":"true"
+        },
+        "time":{
+          "type":"text",
+          "fields":{
+            "keyword":{
+              "type":"keyword"
+            }
+          }
+        },
         "total_sections":{
           "type":"text",
           "fields":{
@@ -577,6 +621,10 @@
             }
           }
 	},
+        "tree":{
+          "type":"object",
+          "dynamic":"true"
+        },
         "uninitialized_datasize":{
           "type":"text",
           "fields":{
@@ -585,6 +633,10 @@
             }
           }
 	},
+        "urls":{
+          "type":"object",
+          "dynamic":"true"
+        },
 	"warnings":{
           "type":"text",
           "fields":{
@@ -604,9 +656,8 @@
         "yara":{
           "type":"object",
           "dynamic":"true"
-          }
-	}
+        }
       }
-    }
-  }
+    } 
+  }  
 }
