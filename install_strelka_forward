@@ -4,7 +4,7 @@
 # This script is currently only supported for use in Standalone deployments
 
 # Clone Strelka repo and build Docker container
-git clone https://github.com/target/strelka.git /opt/strelka/
+git clone -b archive/zeromq https://github.com/target/strelka.git /opt/strelka/
 cd /opt/strelka/ && docker build -t so-strelka .
 
 # Clone Security Onion stuff
