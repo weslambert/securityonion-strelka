@@ -81,7 +81,7 @@
             }
           }
 	},
-        "entropy":{
+        "scan_entropy":{
           "type":"object",
           "dynamic":"true"
         },
@@ -93,9 +93,12 @@
             }
           }
 	},
-        "exiftool":{
-          "type":"object",
-          "dynamic":"true"
+        "scan_exiftool":{
+          "properties": {
+            
+            "type":"object",
+            "dynamic":"true"
+          }
         },
         "exiftool_version":{
           "type":"text",
@@ -237,7 +240,7 @@
           "type":"object",
           "dynamic":"true"
         },
-        "header":{
+        "scan_header":{
           "type":"object",
           "dynamic":"true"
         },
@@ -425,7 +428,7 @@
             }
           }
 	},
-        "pe":{
+        "scan_pe":{
           "type":"object",
           "dynamic":"true"
         },
@@ -653,7 +656,7 @@
             }
           }
         },
-        "yara":{
+        "scan_yara":{
           "type":"object",
           "dynamic":"true"
         }
