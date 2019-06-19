@@ -94,11 +94,8 @@
           }
 	},
         "scan_exiftool":{
-          "properties": {
-            
-            "type":"object",
-            "dynamic":"true"
-          }
+          "type":"object",
+          "dynamic":"true"
         },
         "exiftool_version":{
           "type":"text",
