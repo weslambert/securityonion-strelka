@@ -1,3 +1,0 @@
-coordinator:
-    addr: 'strelka_coordinator_1:6379'
-    db: 0

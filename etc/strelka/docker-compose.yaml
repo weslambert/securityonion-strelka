@@ -1,75 +1,83 @@
 version: '2'
 
 networks:
-    net:
-
-volumes:
-    logs:
+  net:
 
 services:
-    frontend:
-        build:
-              context: /opt/strelka
-              dockerfile: /opt/strelka/build/go/frontend/Dockerfile
-        command: strelka-frontend
-        ports:
-            - "57314:57314"  # must match the port in frontend.yaml
-        networks:
-            - net
-        volumes:
-            - /etc/strelka/frontend/:/etc/strelka/:ro
-            - /var/log/strelka/:/var/log/strelka/
-        restart: unless-stopped
-        depends_on:
-            - coordinator
-    backend:
-        build:
-              context: /opt/strelka
-              dockerfile: /opt/strelka/build/python/backend/Dockerfile
-        command: strelka-backend
-        shm_size: 512mb  # increase as necessary, required for some scanners
-        networks:
-          - net
-        volumes:
-            - /etc/strelka/backend/:/etc/strelka/:ro
-        restart: unless-stopped
-        depends_on:
-            - coordinator
-    redis:
-        build:
-              context: /opt/strelka
-              dockerfile: /opt/strelka/build/go/redis/Dockerfile
-        command: strelka-redis
-        restart: unless-stopped
-        networks:
-          - net
-        volumes:
-            - /etc/strelka/redis/:/etc/strelka/:ro
-        restart: unless-stopped
-        depends_on:
-            - coordinator
-    mmrpc:
-        build:
-              context: /opt/strelka
-              dockerfile: /opt/strelka/build/python/mmrpc/Dockerfile
-        command: strelka-mmrpc --threads 2 --address [::]:33907
-        networks:
-            - net
-    coordinator:
-        image: redis:alpine
-        command: redis-server --save "" --appendonly no  # alt: use config file via volume mapping
-        networks:
-            - net
-    filestream:
-        build:
-              context: /opt/strelka/
-              dockerfile: /opt/strelka/build/go/filestream/Dockerfile
-        command: strelka-filestream
-        networks:
-            - net
-        volumes:
-            - /etc/strelka/filestream/:/etc/strelka/:ro
-            - /nsm/strelka:/nsm/strelka
-        restart: unless-stopped
-        depends_on:
-            - frontend
+  frontend:
+    build:
+      context: /opt/strelka
+      dockerfile: build/go/frontend/Dockerfile
+    command: strelka-frontend
+    ports:
+      - "57314:57314"  # must match the port in frontend.yaml
+    networks:
+      - net
+    volumes:
+      - /etc/strelka/frontend/:/etc/strelka/:ro
+      - /var/log/strelka/:/var/log/strelka/
+    restart: unless-stopped
+    depends_on:
+      - coordinator
+      - gatekeeper
+
+  backend:
+    build:
+      context: /opt/strelka
+      dockerfile: /opt/strelka/build/python/backend/Dockerfile
+    command: strelka-backend
+    shm_size: 512mb  # increase as necessary, required for some scanners
+    networks:
+      - net
+    volumes:
+      - /etc/strelka/backend/:/etc/strelka/:ro
+    restart: unless-stopped
+    depends_on:
+      - coordinator
+
+  manager:
+    build:
+      context: /opt/strelka
+      dockerfile: /opt/strelka/build/go/manager/Dockerfile
+    command: strelka-manager
+    restart: unless-stopped
+    networks:
+      - net
+    volumes:
+      - /etc/strelka/manager/:/etc/strelka/:ro
+    depends_on:
+      - coordinator
+
+  mmrpc:
+    build:
+      context: /opt/strelka
+      dockerfile: /opt/strelka/build/python/mmrpc/Dockerfile
+    command: strelka-mmrpc --threads 2 --address [::]:33907
+    networks:
+      - net
+
+  coordinator:
+    image: redis:alpine
+    command: redis-server --save "" --appendonly no  # alt: use config file via volume mapping
+    networks:
+      - net
+
+  gatekeeper:
+    image: redis:alpine
+    command: redis-server --save "" --appendonly no --maxmemory-policy allkeys-lru  # alt: use config file via volume mapping
+    networks:
+      - net
+  
+  filestream:
+    build:
+      context: /opt/strelka/
+      dockerfile: /opt/strelka/build/go/filestream/Dockerfile
+    command: strelka-filestream
+    networks:
+      - net
+    volumes:
+      - /etc/strelka/filestream/:/etc/strelka/:ro
+      - /nsm/strelka:/nsm/strelka
+    restart: unless-stopped
+    depends_on:
+      - frontend
