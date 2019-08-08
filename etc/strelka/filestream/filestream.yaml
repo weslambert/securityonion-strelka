@@ -1,5 +1,5 @@
 conn:
-  server: '127.0.0.1:57314'
+  server: 'strelka_frontend_1:57314'
   cert: ''
   timeout:
     dial: 5s
