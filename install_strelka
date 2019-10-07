@@ -9,7 +9,7 @@ git clone https://github.com/target/strelka /opt/strelka
 #cd /opt/strelka/ && docker build -t so-strelka .
 
 # Clone Security Onion stuff
-git clone -b grpc https://github.com/weslambert/securityonion-strelka.git /opt/securityonion-strelka
+git clone -b master https://github.com/weslambert/securityonion-strelka.git /opt/securityonion-strelka
 
 # Install docker-compose
 apt-get install -y docker-compose 
